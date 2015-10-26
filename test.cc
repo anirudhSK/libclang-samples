@@ -4,7 +4,7 @@
 #include <iostream>
 
 int main() {
-  CXIndex Index = clang_createIndex(0, 1);
+  CXIndex Index = clang_createIndex(0, 0);
   CXTranslationUnit TU = clang_parseTranslationUnit(Index, "input.c", nullptr, 0, nullptr, 0, CXTranslationUnit_None);
   for (unsigned I = 0, N = clang_getNumDiagnostics(TU); I != N; ++I) {
     CXDiagnostic Diag = clang_getDiagnostic(TU, I);
