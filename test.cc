@@ -5,8 +5,8 @@
 
 int main() {
   CXIndex Index = clang_createIndex(0, 0);
-  const char* options[] = {"-Werror"};
-  CXTranslationUnit TU = clang_parseTranslationUnit(Index, "input.c", options, 1, nullptr, 0, CXTranslationUnit_None);
+  const char* options[] = {"-Werror", "-Weverything"};
+  CXTranslationUnit TU = clang_parseTranslationUnit(Index, "input.c", options, 2, nullptr, 0, CXTranslationUnit_None);
   for (unsigned I = 0, N = clang_getNumDiagnostics(TU); I != N; ++I) {
     CXDiagnostic Diag = clang_getDiagnostic(TU, I);
     CXString String = clang_formatDiagnostic(Diag,
