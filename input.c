@@ -10,6 +10,7 @@ struct Packet {
 };
 
 void func(struct Packet p) {
+  a();
   if (! initialized) {
    current_val = p.val;
    initialized = 1;
