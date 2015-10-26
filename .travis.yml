@@ -1,0 +1,10 @@
+language: cpp
+sudo: required
+services: docker
+
+addons:
+  apt:
+    packages:
+    - libclang-3.4-dev
+
+script: "./autogen.sh && ./configure --enable-debug && make"
