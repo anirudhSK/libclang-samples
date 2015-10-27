@@ -1,11 +1,12 @@
 AC_PREREQ([2.61])
 AC_INIT([dummy], [0.1], [anirudh@csail.mit.edu])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
-AC_CONFIG_SRCDIR([dummy.cc])
+AC_CONFIG_SRCDIR([src/dummy.cc])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
 AC_PROG_CXX
+AC_PROG_RANLIB
 
 # Add picky CXXFLAGS
 CPPFLAGS="-std=c++11 -pthread"
@@ -24,5 +25,7 @@ AC_TYPE_SIZE_T
 AC_TYPE_UINT64_T
 AC_LANG_POP(C++)
 
-AC_CONFIG_FILES([Makefile])
+AC_CONFIG_FILES([Makefile
+                 third_party/Makefile
+                 src/Makefile])
 AC_OUTPUT
