@@ -4,7 +4,10 @@ services: docker
 
 addons:
   apt:
+    sources:
+    - ubuntu-toolchain-r-test
     packages:
+    - g++-4.9
     - libclang-3.4-dev
 
-script: "./autogen.sh && ./configure --enable-debug && make"
+script: "./autogen.sh && ./configure CXX='g++-4.9' && make"
