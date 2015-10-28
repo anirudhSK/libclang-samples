@@ -1,7 +1,7 @@
 AC_PREREQ([2.61])
 AC_INIT([dummy], [0.1], [anirudh@csail.mit.edu])
 AM_INIT_AUTOMAKE([foreign subdir-objects])
-AC_CONFIG_SRCDIR([src/dummy.cc])
+AC_CONFIG_SRCDIR([src/domino.cc])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.

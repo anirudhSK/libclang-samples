@@ -20,6 +20,6 @@ stamp-h1
 .libs/
 *.lo
 *.o
-dummy
+domino
 *~
 *.a

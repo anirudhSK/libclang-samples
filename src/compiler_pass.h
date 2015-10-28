@@ -11,32 +11,48 @@
 /// Convenience typedef for transforming a translation unit
 typedef std::function<std::string(const CXTranslationUnit &)> Transformer;
 
-
-/// Abstract base class for a pass of the Clang compiler,
+/// Base class for a pass of the Clang compiler,
 /// a function object that takes a string corresponding to a translation unit
 /// and returns another string as another translation unit.
 class CompilerPass {
  public:
-  /// Run the compiler pass on a string and return a new string
-  virtual std::string operator()(const std::string &) = 0;
+  /// Construct CompilerPass with string contents
+  CompilerPass(const std::string & str) { temp_file_.write(str); }
 
-  /// Virtual destructor to shut up g++
-  virtual ~CompilerPass() {};
+  /// Returned parsed output
+  std::string output(void) const { return output_; };
+
+ protected:
+  /// Output as a string
+  std::string output_ = "";
+
+  /// TempFile to hold string to be parsed
+  /// libclang can only parse strings, not files
+  TempFile temp_file_ = TempFile("tmp", ".c");
 };
 
 /// Single pass over a translation unit.
 class SinglePass  : public CompilerPass {
  public:
   /// Construct a SinglePass using a Transformer object
-  SinglePass(const Transformer & t_transformer);
+  SinglePass(const Transformer & t_transformer, const std::string & str);
 
-  /// Execute SinglePass object overriding function call operator
-  std::string operator() (const std::string & string_to_parse) final override;
+  /// Destructor to free up libclang data structs
+  ~SinglePass();
+
+  /// Delete copy constructor and copy assignment
+  SinglePass(const SinglePass &) = delete;
+  SinglePass & operator=(const SinglePass &) = delete;
 
  private:
-  /// TempFile to hold string to be parsed
-  /// libclang can only parse strings, not files
-  TempFile temp_file_;
+  /// Diagnostics options to report warnings.
+  const std::vector<const char *> diagnostics = {"-Werror", "-Wall"};
+
+  /// libclang index object for parsing
+  CXIndex index_;
+
+  /// libclang reference to parsed translation unit
+  CXTranslationUnit translation_unit_;
 };
 
 #endif  // SRC_COMPILER_PASS_H_
