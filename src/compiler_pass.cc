@@ -26,6 +26,7 @@ SinglePass::SinglePass(const Transformer & t_transformer __attribute__((unused))
 
   /// Echo translation unit
   echo_translation_unit();
+  std::cout << std::endl;
 }
 
 void SinglePass::echo_translation_unit(void) {
@@ -46,6 +47,9 @@ void SinglePass::echo_translation_unit(void) {
                                                     *(tokens + i))).stl_str()
               << " ";
   }
+
+  /// Release tokens
+  clang_disposeTokens(translation_unit_, tokens, num_tokens);
 }
 
 SinglePass::~SinglePass() {
