@@ -17,7 +17,7 @@ SinglePass::SinglePass(const Transformer & t_transformer __attribute__((unused))
     ClangDiagnostic diag(clang_getDiagnostic(translation_unit_, i));
     ClangString diag_str(clang_formatDiagnostic(diag.get_raw(),
                                                 clang_defaultDiagnosticDisplayOptions()));
-    all_diags += diag_str.stl_str();
+    all_diags += diag_str.stl_str() + "\n";
   }
 
   if (all_diags != "") {
