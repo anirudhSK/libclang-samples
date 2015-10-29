@@ -1,5 +1,7 @@
 #include "src/compiler_pass.h"
 
+#include "src/pretty_printer.h"
+
 #include <iostream>
 
 SinglePass::SinglePass(const Transformer & t_transformer __attribute__((unused)), const std::string & str)
@@ -30,26 +32,8 @@ SinglePass::SinglePass(const Transformer & t_transformer __attribute__((unused))
 }
 
 void SinglePass::echo_translation_unit(void) {
-  /// Get cursor for translation unit
-  CXCursor tu_cursor =  clang_getTranslationUnitCursor(translation_unit_);
-
-  /// Get source range
-  CXSourceRange tu_src_range = clang_getCursorExtent(tu_cursor);
-
-  /// Extract tokens
-  unsigned num_tokens;
-  CXToken * tokens;
-  clang_tokenize(translation_unit_, tu_src_range, &tokens, &num_tokens);
-
-  /// Print them out
-  for (unsigned i = 0; i < num_tokens; i++) {
-    std::cout << ClangString(clang_getTokenSpelling(translation_unit_,
-                                                    *(tokens + i))).stl_str()
-              << " ";
-  }
-
-  /// Release tokens
-  clang_disposeTokens(translation_unit_, tokens, num_tokens);
+  std::cout<<PrettyPrinter(translation_unit_,
+                           clang_getTranslationUnitCursor(translation_unit_)).output();
 }
 
 SinglePass::~SinglePass() {
