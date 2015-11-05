@@ -1,6 +1,10 @@
 #ifndef CLANG_STRING_H_
 #define CLANG_STRING_H_
 
+#include <string>
+
+#include "clang-c/Index.h"
+
 /// RAII wrapper around CXString
 class ClangString {
  public:

@@ -1,5 +1,7 @@
-#ifndef PRETTY_PRINTER_H_
-#define PRETTY_PRINTER_H_
+#ifndef SRC_PRETTY_PRINTER_H_
+#define SRC_PRETTY_PRINTER_H_
+
+#include <string>
 
 #include "clang-c/Index.h"
 
@@ -11,27 +13,17 @@ class PrettyPrinter {
  public:
   /// Construct PrettyPrinter for CXCursor object
   PrettyPrinter(const CXTranslationUnit & translation_unit,
-                const CXCursor & cursor)
-    : translation_unit_(translation_unit) {
-    /// Get source range
-    CXSourceRange src_range = clang_getCursorExtent(cursor);
-
-    /// Extract tokens
-    clang_tokenize(translation_unit_, src_range, &tokens_, &num_tokens_);
-
-    /// Append to output_
-    for (unsigned i = 0; i < num_tokens_; i++) {
-      output_ += ClangString(clang_getTokenSpelling(translation_unit_,
-                             *(tokens_ + i))).stl_str() + " ";
-    }
-  }
+                const CXCursor & cursor);
 
   /// Destruct PrettyPrinter by freeing tokens
-  ~PrettyPrinter() { clang_disposeTokens(translation_unit_, tokens_, num_tokens_); }
+  ~PrettyPrinter();
 
   /// Delete copy constructor and copy assignment
   PrettyPrinter(const PrettyPrinter &) = delete;
   PrettyPrinter & operator=(const PrettyPrinter &) = delete;
+
+  /// Permit move constructor
+  PrettyPrinter(PrettyPrinter && other);
 
   /// Output string
   auto output(void) const { return output_; }
@@ -50,4 +42,4 @@ class PrettyPrinter {
   CXTranslationUnit translation_unit_ = nullptr;
 };
 
-#endif  // PRETTY_PRINTER_H_
+#endif  // SRC_PRETTY_PRINTER_H_

@@ -1,6 +1,8 @@
 #ifndef CLANG_DIAGNOSTIC_H_
 #define CLANG_DIAGNOSTIC_H_
 
+#include "clang-c/Index.h"
+
 /// RAII wrapper around CXDiagnostic
 class ClangDiagnostic {
  public:
