@@ -48,9 +48,6 @@ class SinglePass  : public CompilerPass {
   SinglePass & operator=(const SinglePass &) = delete;
 
  private:
-  /// Echo entire translation unit
-  void echo_translation_unit(void);
-
   /// Diagnostics options to report warnings.
   const std::vector<const char *> diagnostics = {"-Werror", "-Wall"};
 

@@ -27,13 +27,9 @@ SinglePass::SinglePass(const Transformer & t_transformer __attribute__((unused))
   }
 
   /// Echo translation unit
-  echo_translation_unit();
+  std::cout << PrettyPrinter(translation_unit_,
+                             clang_getTranslationUnitCursor(translation_unit_)).output();
   std::cout << std::endl;
-}
-
-void SinglePass::echo_translation_unit(void) {
-  std::cout<<PrettyPrinter(translation_unit_,
-                           clang_getTranslationUnitCursor(translation_unit_)).output();
 }
 
 SinglePass::~SinglePass() {
