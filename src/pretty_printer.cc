@@ -19,7 +19,7 @@ PrettyPrinter::PrettyPrinter(const CXTranslationUnit & translation_unit,
 
   /// Append to output_
   if (num_tokens_ >= 2) {
-    for (unsigned i = 0; i < num_tokens_ - 1; i++) {
+    for (unsigned i = 0; i < num_tokens_; i++) {
       output_ += ClangString(clang_getTokenSpelling(translation_unit_,
                            *(tokens_ + i))).stl_str() + " ";
     }
