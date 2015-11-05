@@ -1,5 +1,7 @@
 #include "src/pretty_printer.h"
 
+#include "third_party/assert_exception.h"
+
 #include "src/clang_string.h"
 
 PrettyPrinter::PrettyPrinter(const CXTranslationUnit & translation_unit,
@@ -11,10 +13,18 @@ PrettyPrinter::PrettyPrinter(const CXTranslationUnit & translation_unit,
   /// Extract tokens
   clang_tokenize(translation_unit_, src_range, &tokens_, &num_tokens_);
 
+  // Either we have at least two tokens, current and the next one
+  // Or it's empty (such as TypedefDecls at the beginning)
+  assert_exception(num_tokens_ >= 2 or num_tokens_ == 0);
+
   /// Append to output_
-  for (unsigned i = 0; i < num_tokens_; i++) {
-    output_ += ClangString(clang_getTokenSpelling(translation_unit_,
+  if (num_tokens_ >= 2) {
+    for (unsigned i = 0; i < num_tokens_ - 1; i++) {
+      output_ += ClangString(clang_getTokenSpelling(translation_unit_,
                            *(tokens_ + i))).stl_str() + " ";
+    }
+  } else if (num_tokens_ == 0) {
+    output_ = "";
   }
 }
 
