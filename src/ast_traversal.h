@@ -18,6 +18,13 @@ class AstTraversal {
   AstTraversal & operator=(const AstTraversal &) = delete;
 
  private:
+  /// Dummy echo visitor
+  /// that prints out type of cursor
+  /// and pretty prints the cursor itself
+  static CXChildVisitResult echo_visitor(CXCursor cursor,
+                                         CXCursor parent,
+                                         CXClientData client_data);
+
   /// Reference to translation unit, for destructor
   CXTranslationUnit translation_unit_ = nullptr;
 
