@@ -11,6 +11,9 @@
 /// Used to print AST nodes into their textual form.
 class PrettyPrinter {
  public:
+  /// Default constructor, leave all members uninitialized
+  PrettyPrinter() {}
+
   /// Construct PrettyPrinter for CXCursor object
   PrettyPrinter(const CXTranslationUnit & translation_unit,
                 const CXCursor & cursor);
