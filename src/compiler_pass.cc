@@ -1,6 +1,6 @@
 #include "src/compiler_pass.h"
 
-#include "src/pretty_printer.h"
+#include "src/ast_traversal.h"
 
 #include <iostream>
 
@@ -26,10 +26,9 @@ SinglePass::SinglePass(const Transformer & t_transformer __attribute__((unused))
     throw std::logic_error("Compilation failed with diagnostics\n" + all_diags);
   }
 
-  /// Echo translation unit
-  std::cout << PrettyPrinter(translation_unit_,
-                             clang_getTranslationUnitCursor(translation_unit_)).output();
-  std::cout << std::endl;
+  // Echo translation unit
+  AstTraversal(translation_unit_,
+               clang_getTranslationUnitCursor(translation_unit_));
 }
 
 SinglePass::~SinglePass() {
