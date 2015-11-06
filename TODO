@@ -1,0 +1,22 @@
+Pre work:
+
+1. Too many calls to get_str(), pretty_print(), etc. Need to define a few implicit casts
+2. Need to define high-level abstractions:
+--> one C++ class for each AST node type, don't do inheritance for now.
+--> some book-keeping, typecasts, stringify, pretty-print, type information, and such.
+--> Should be able to construct the entire AST from a single-call to the constructor.
+--> Don't need to be as crazy as alfalfa's frame decoder, but we can use libclang
+in a similar vein as a stream parser and then construct a C++ AST.
+--> This pushes all the complexity down, not up.
+--> This will allow us to pretty print much the same way as clang -cc1 -view-ast ..
+
+1. What is an UnexposedExpr?: I think it stands for any of:
+
+https://github.com/llvm-mirror/clang/blob/master/tools/libclang/CXCursor.cpp#L225 until
+https://github.com/llvm-mirror/clang/blob/master/tools/libclang/CXCursor.cpp#L262
+Basically, things that aren't exposed in libclang.
+
+In our case, this is just the ImplicitCastExpr.
+
+1a. I think sometimes we might want to print until tokens,
+and sometimes only until (tokens - 1)

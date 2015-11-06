@@ -31,6 +31,12 @@ class PrettyPrinter {
   /// Output string
   auto output(void) const { return output_; }
 
+  /// Pretty printing function for a cursor
+  static std::string pretty_print(const CXTranslationUnit & translation_unit,
+                                  const CXCursor & cursor) {
+    return PrettyPrinter(translation_unit, cursor).output();
+  }
+
  private:
   /// Pretty printed output
   std::string output_ = "";

@@ -24,6 +24,10 @@ class ClangString {
   /// Get underlying CXString object
   auto get_raw() const { return cx_string_; }
 
+  /// Static method to std::string from CXString
+  /// This is a tad elaborate, but I don't know how else to be exception safe
+  std::string get_str(const CXString & t_cx_string) { return CXString(t_cx_string).stl_str(); }
+
  private:
   /// Underlying CXString object
   CXString cx_string_;
